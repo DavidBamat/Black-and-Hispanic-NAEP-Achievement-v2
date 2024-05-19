@@ -1,0 +1,106 @@
+# Data sets
+
+The plots that populate the content of this site are created from the data sets presented on this page. These data are downloaded from the [NAEP Data Explorer](https://www.nationsreportcard.gov/ndecore/landing) and then wrangled into a tidy format.
+
+```{r set global options, echo=FALSE}
+
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+
+```
+
+```{r Packages, echo=FALSE, message=FALSE, warning=FALSE}
+
+#requires install.packages("pacman")
+pacman::p_load(readxl, janitor, tidyverse, DT)
+
+```
+
+  
+### Black students by National School Lunch Program status (8th grade) {-}
+```{r}
+
+math_df <- read_csv('https://raw.githubusercontent.com/DavidBamat/Black-Hispanic-Achievement/main/g8m_race_eth_nslp.csv', show_col_types = FALSE) %>% 
+  filter(RaceEth=="Black") %>%
+  mutate(Subject = "Math")
+
+read_df <- read_csv('https://raw.githubusercontent.com/DavidBamat/Black-Hispanic-Achievement/main/g8r_race_eth_nslp.csv', show_col_types = FALSE) %>% 
+  filter(RaceEth=="Black") %>%
+  mutate(Subject = "Reading")
+  
+merged_df <- rbind(math_df, read_df) %>%
+  relocate(Subject, .after = Jurisdiction) %>%
+  arrange(Year, Jurisdiction)
+
+merged_df %>%
+  datatable(., filter = 'top', rownames = F) %>% 
+  DT::formatStyle(columns = colnames(merged_df), fontSize = '75%')
+
+```
+
+  
+### Black students by reported gender (8th grade) {-}
+```{r}
+
+math_df <- read_csv('https://raw.githubusercontent.com/DavidBamat/Black-Hispanic-Achievement/main/g8m_race_eth_gen.csv', show_col_types = FALSE) %>% 
+  filter(RaceEth=="Black") %>%
+  mutate(Subject = "Math")
+
+read_df <- read_csv('https://raw.githubusercontent.com/DavidBamat/Black-Hispanic-Achievement/main/g8r_race_eth_gen.csv', show_col_types = FALSE) %>% 
+  filter(RaceEth=="Black") %>%
+  mutate(Subject = "Reading")
+  
+merged_df <- rbind(math_df, read_df) %>%
+  relocate(Subject, .after = Jurisdiction) %>%
+  arrange(Year, Jurisdiction)
+
+merged_df %>%
+  datatable(., filter = 'top', rownames = F) %>% 
+  DT::formatStyle(columns = colnames(merged_df), fontSize = '75%')
+
+
+```
+
+  
+### Hispanic students by National School Lunch Program status (8th grade) {-}
+```{r}
+
+math_df <- read_csv('https://raw.githubusercontent.com/DavidBamat/Black-Hispanic-Achievement/main/g8m_race_eth_nslp.csv', show_col_types = FALSE) %>% 
+  filter(RaceEth=="Hispanic") %>%
+  mutate(Subject = "Math")
+
+read_df <- read_csv('https://raw.githubusercontent.com/DavidBamat/Black-Hispanic-Achievement/main/g8r_race_eth_nslp.csv', show_col_types = FALSE) %>% 
+  filter(RaceEth=="Hispanic") %>%
+  mutate(Subject = "Reading")
+  
+merged_df <- rbind(math_df, read_df) %>%
+  relocate(Subject, .after = Jurisdiction) %>%
+  arrange(Year, Jurisdiction)
+
+merged_df %>%
+  datatable(., filter = 'top', rownames = F) %>% 
+  DT::formatStyle(columns = colnames(merged_df), fontSize = '75%')
+
+```
+
+  
+### Hispanic students by reported gender (8th grade) {-}
+```{r}
+
+math_df <- read_csv('https://raw.githubusercontent.com/DavidBamat/Black-Hispanic-Achievement/main/g8m_race_eth_gen.csv', show_col_types = FALSE) %>% 
+  filter(RaceEth=="Hispanic") %>%
+  mutate(Subject = "Math")
+
+read_df <- read_csv('https://raw.githubusercontent.com/DavidBamat/Black-Hispanic-Achievement/main/g8r_race_eth_gen.csv', show_col_types = FALSE) %>% 
+  filter(RaceEth=="Hispanic") %>%
+  mutate(Subject = "Reading")
+  
+merged_df <- rbind(math_df, read_df) %>%
+  relocate(Subject, .after = Jurisdiction) %>%
+  arrange(Year, Jurisdiction)
+
+merged_df %>%
+  datatable(., filter = 'top', rownames = F) %>% 
+  DT::formatStyle(columns = colnames(merged_df), fontSize = '75%')
+
+
+```

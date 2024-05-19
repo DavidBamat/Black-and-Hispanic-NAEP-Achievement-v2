@@ -1,0 +1,13 @@
+---
+output:
+  bookdown::gitbook:
+    css: custom.css
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Reading vs Math Achievement of Black students by State
+[Expand App in Full Screen](https://black-hispanic-achievement.shinyapps.io/Shiny-Black/)
+<iframe src ="https://black-hispanic-achievement.shinyapps.io/Shiny-Black/" height=700px width=1000px/>

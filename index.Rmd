@@ -1,0 +1,20 @@
+---
+title: "Black and Hispanic NAEP Achievement (v 1.2)"
+author: "David Bamat, PhD"
+site: bookdown::bookdown_site
+documentclass: book
+description: |
+  This is an eBook that tracks the NAEP achievement of Black and Hispanic
+  students over time. It is intended to help researchers and policymakers
+  identify jurisdictions that consistently best serve and support the learning
+  and achievement of Black and Hispanic students.
+biblio-style: apalike
+csl: "chicago-fullnote-bibliography.csl"
+editor_options:
+  markdown:
+    wrap: 100
+---
+
+#  {.unnumbered}
+
+![](Logo.jpg){width="800"}

@@ -1,0 +1,19 @@
+book_filename: "Black-Hispanic-Achievement"
+new_session: true
+before_chapter_script: _common.R
+delete_merged_file: true
+language:
+  ui:
+    chapter_name: ""
+#sets the order of chapters
+rmd_files: [
+  "index.Rmd",
+  "About.Rmd",
+  "iframe-black.Rmd",
+  "iframe-hispanic.Rmd",
+  "Black-Math-Achievement.Rmd",
+  "Black-Reading-Achievement.Rmd",
+  "Hispanic-Math-Achievement.Rmd",
+  "Hispanic-Reading-Achievement.Rmd",
+  "Data.Rmd"
+]

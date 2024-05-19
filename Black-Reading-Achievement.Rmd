@@ -1,0 +1,3633 @@
+# Black Reading Achievement
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.align = 'center')
+```
+
+```{r Packages, echo=FALSE, message=FALSE, warning=FALSE}
+
+#requires install.packages("pacman")
+pacman::p_load(readxl, janitor, tidyverse)
+
+```
+
+```{r Data, echo=FALSE, message=FALSE, warning=FALSE}
+
+##Change order of 'National public' to be last so that is always the same color##
+
+#main
+df <- read_csv('https://raw.githubusercontent.com/DavidBamat/Black-Hispanic-Achievement/main/g8r_race_eth.csv')
+
+df$Jurisdiction <- factor(df$Jurisdiction,levels = c('Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'District of Columbia', 'DoDEA', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Puerto Rico', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming', 'National public'))
+
+#nslp
+df_nslp <- read_csv('https://raw.githubusercontent.com/DavidBamat/Black-Hispanic-Achievement/main/g8r_race_eth_nslp.csv')
+
+df_nslp$Jurisdiction <- factor(df_nslp$Jurisdiction,levels = c('Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'District of Columbia', 'DoDEA', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Puerto Rico', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming', 'National public'))
+
+#gen
+df_gen <- read_csv('https://raw.githubusercontent.com/DavidBamat/Black-Hispanic-Achievement/main/g8r_race_eth_gen.csv')
+
+df_gen$Jurisdiction <- factor(df_gen$Jurisdiction,levels = c('Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'District of Columbia', 'DoDEA', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Puerto Rico', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming', 'National public'))
+
+```
+
+## Alabama {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Alabama") %>%
+  filter(RaceEth=="Black") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(215, 275) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+```
+
+### Lower Income & Black in Alabama {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Alabama") %>%
+  filter(RaceEth=="Black") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Black Boys in Alabama {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Alabama") %>%
+  filter(RaceEth=="Black") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Alaska {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Alaska") %>%
+  filter(RaceEth=="Black") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(215, 275) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Black in Alaska {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Alaska") %>%
+  filter(RaceEth=="Black") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Black Boys in Alaska {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Alaska") %>%
+  filter(RaceEth=="Black") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Arizona {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Arizona") %>%
+  filter(RaceEth=="Black") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(215, 275) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Black in Arizona {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Arizona") %>%
+  filter(RaceEth=="Black") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Black Boys in Arizona {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Arizona") %>%
+  filter(RaceEth=="Black") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Arkansas {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Arkansas") %>%
+  filter(RaceEth=="Black") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(215, 275) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Black in Arkansas {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Arkansas") %>%
+  filter(RaceEth=="Black") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Black Boys in Arkansas {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Arkansas") %>%
+  filter(RaceEth=="Black") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## California {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="California") %>%
+  filter(RaceEth=="Black") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(215, 275) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Black in California {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="California") %>%
+  filter(RaceEth=="Black") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Black Boys in California {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="California") %>%
+  filter(RaceEth=="Black") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Colorado {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Colorado") %>%
+  filter(RaceEth=="Black") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(215, 275) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Black in Colorado {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Colorado") %>%
+  filter(RaceEth=="Black") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Black Boys in Colorado {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Colorado") %>%
+  filter(RaceEth=="Black") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Connecticut {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Connecticut") %>%
+  filter(RaceEth=="Black") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(215, 275) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Black in Connecticut {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Connecticut") %>%
+  filter(RaceEth=="Black") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Black Boys in Connecticut {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Connecticut") %>%
+  filter(RaceEth=="Black") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Delaware {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Delaware") %>%
+  filter(RaceEth=="Black") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(215, 275) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Black in Delaware {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Delaware") %>%
+  filter(RaceEth=="Black") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Black Boys in Delaware {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Delaware") %>%
+  filter(RaceEth=="Black") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Florida {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Florida") %>%
+  filter(RaceEth=="Black") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(215, 275) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Black in Florida {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Florida") %>%
+  filter(RaceEth=="Black") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Black Boys in Florida {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Florida") %>%
+  filter(RaceEth=="Black") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Georgia {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Georgia") %>%
+  filter(RaceEth=="Black") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(215, 275) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Black in Georgia {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Georgia") %>%
+  filter(RaceEth=="Black") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Black Boys in Georgia {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Georgia") %>%
+  filter(RaceEth=="Black") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Hawaii {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Hawaii") %>%
+  filter(RaceEth=="Black") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(215, 275) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Black in Hawaii {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Hawaii") %>%
+  filter(RaceEth=="Black") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Black Boys in Hawaii {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Hawaii") %>%
+  filter(RaceEth=="Black") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+## Idaho {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Idaho") %>%
+  filter(RaceEth=="Black") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(215, 275) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Black in Idaho {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Idaho") %>%
+  filter(RaceEth=="Black") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Black Boys in Idaho {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Idaho") %>%
+  filter(RaceEth=="Black") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Illinois {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Illinois") %>%
+  filter(RaceEth=="Black") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(215, 275) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Black in Illinois {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Illinois") %>%
+  filter(RaceEth=="Black") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Black Boys in Illinois {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Illinois") %>%
+  filter(RaceEth=="Black") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Indiana {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Indiana") %>%
+  filter(RaceEth=="Black") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(215, 275) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Black in Indiana {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Indiana") %>%
+  filter(RaceEth=="Black") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Black Boys in Indiana {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Indiana") %>%
+  filter(RaceEth=="Black") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Iowa {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Iowa") %>%
+  filter(RaceEth=="Black") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(215, 275) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Black in Iowa {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Iowa") %>%
+  filter(RaceEth=="Black") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Black Boys in Iowa {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Iowa") %>%
+  filter(RaceEth=="Black") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Kansas {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Kansas") %>%
+  filter(RaceEth=="Black") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(215, 275) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Black in Kansas {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Kansas") %>%
+  filter(RaceEth=="Black") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Black Boys in Kansas {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Kansas") %>%
+  filter(RaceEth=="Black") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Kentucky {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Kentucky") %>%
+  filter(RaceEth=="Black") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(215, 275) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Black in Kentucky {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Kentucky") %>%
+  filter(RaceEth=="Black") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Black Boys in Kentucky {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Kentucky") %>%
+  filter(RaceEth=="Black") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Louisiana {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Louisiana") %>%
+  filter(RaceEth=="Black") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(215, 275) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Black in Louisiana {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Louisiana") %>%
+  filter(RaceEth=="Black") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Black Boys in Louisiana {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Louisiana") %>%
+  filter(RaceEth=="Black") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Maine {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Maine") %>%
+  filter(RaceEth=="Black") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(215, 275) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Black in Maine {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Maine") %>%
+  filter(RaceEth=="Black") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Black Boys in Maine {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Maine") %>%
+  filter(RaceEth=="Black") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Maryland {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Maryland") %>%
+  filter(RaceEth=="Black") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(215, 275) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Black in Maryland {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Maryland") %>%
+  filter(RaceEth=="Black") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Black Boys in Maryland {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Maryland") %>%
+  filter(RaceEth=="Black") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Massachusetts {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Massachusetts") %>%
+  filter(RaceEth=="Black") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(215, 275) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Black in Massachusetts {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Massachusetts") %>%
+  filter(RaceEth=="Black") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Black Boys in Massachusetts {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Massachusetts") %>%
+  filter(RaceEth=="Black") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Michigan {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Michigan") %>%
+  filter(RaceEth=="Black") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(215, 275) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Black in Michigan {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Michigan") %>%
+  filter(RaceEth=="Black") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Black Boys in Michigan {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Michigan") %>%
+  filter(RaceEth=="Black") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Minnesota {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Minnesota") %>%
+  filter(RaceEth=="Black") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(215, 275) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Black in Minnesota {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Minnesota") %>%
+  filter(RaceEth=="Black") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Black Boys in Minnesota {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Minnesota") %>%
+  filter(RaceEth=="Black") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Mississippi {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Mississippi") %>%
+  filter(RaceEth=="Black") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(215, 275) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Black in Mississippi {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Mississippi") %>%
+  filter(RaceEth=="Black") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Black Boys in Mississippi {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Mississippi") %>%
+  filter(RaceEth=="Black") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Missouri {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Missouri") %>%
+  filter(RaceEth=="Black") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(215, 275) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Black in Missouri {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Missouri") %>%
+  filter(RaceEth=="Black") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Black Boys in Missouri {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Missouri") %>%
+  filter(RaceEth=="Black") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Montana {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Montana") %>%
+  filter(RaceEth=="Black") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(215, 275) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Black in Montana {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Montana") %>%
+  filter(RaceEth=="Black") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Black Boys in Montana {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Montana") %>%
+  filter(RaceEth=="Black") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Nebraska {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Nebraska") %>%
+  filter(RaceEth=="Black") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(215, 275) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Black in Nebraska {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Nebraska") %>%
+  filter(RaceEth=="Black") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Black Boys in Nebraska {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Nebraska") %>%
+  filter(RaceEth=="Black") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Nevada {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Nevada") %>%
+  filter(RaceEth=="Black") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(215, 275) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Black in Nevada {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Nevada") %>%
+  filter(RaceEth=="Black") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Black Boys in Nevada {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Nevada") %>%
+  filter(RaceEth=="Black") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## New Hampshire {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="New Hampshire") %>%
+  filter(RaceEth=="Black") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(215, 275) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Black in New Hampshire {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="New Hampshire") %>%
+  filter(RaceEth=="Black") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Black Boys in New Hampshire {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="New Hampshire") %>%
+  filter(RaceEth=="Black") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## New Jersey {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="New Jersey") %>%
+  filter(RaceEth=="Black") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(215, 275) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Black in New Jersey {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="New Jersey") %>%
+  filter(RaceEth=="Black") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Black Boys in New Jersey {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="New Jersey") %>%
+  filter(RaceEth=="Black") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## New Mexico {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="New Mexico") %>%
+  filter(RaceEth=="Black") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(215, 275) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Black in New Mexico {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="New Mexico") %>%
+  filter(RaceEth=="Black") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Black Boys in New Mexico {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="New Mexico") %>%
+  filter(RaceEth=="Black") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## New York {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="New York") %>%
+  filter(RaceEth=="Black") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(215, 275) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Black in New York {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="New York") %>%
+  filter(RaceEth=="Black") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Black Boys in New York {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="New York") %>%
+  filter(RaceEth=="Black") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## North Carolina {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="North Carolina") %>%
+  filter(RaceEth=="Black") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(215, 275) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Black in North Carolina {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="North Carolina") %>%
+  filter(RaceEth=="Black") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Black Boys in North Carolina {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="North Carolina") %>%
+  filter(RaceEth=="Black") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## North Dakota {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="North Dakota") %>%
+  filter(RaceEth=="Black") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(215, 275) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Black in North Dakota {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="North Dakota") %>%
+  filter(RaceEth=="Black") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Black Boys in North Dakota {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="North Dakota") %>%
+  filter(RaceEth=="Black") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Ohio {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Ohio") %>%
+  filter(RaceEth=="Black") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(215, 275) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Black in Ohio {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Ohio") %>%
+  filter(RaceEth=="Black") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Black Boys in Ohio {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Ohio") %>%
+  filter(RaceEth=="Black") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Oklahoma {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Oklahoma") %>%
+  filter(RaceEth=="Black") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(215, 275) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Black in Oklahoma {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Oklahoma") %>%
+  filter(RaceEth=="Black") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Black Boys in Oklahoma {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Oklahoma") %>%
+  filter(RaceEth=="Black") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Oregon {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Oregon") %>%
+  filter(RaceEth=="Black") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(215, 275) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Black in Oregon {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Oregon") %>%
+  filter(RaceEth=="Black") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Black Boys in Oregon {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Oregon") %>%
+  filter(RaceEth=="Black") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Pennsylvania {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Pennsylvania") %>%
+  filter(RaceEth=="Black") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(215, 275) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Black in Pennsylvania {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Pennsylvania") %>%
+  filter(RaceEth=="Black") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Black Boys in Pennsylvania {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Pennsylvania") %>%
+  filter(RaceEth=="Black") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Rhode Island {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Rhode Island") %>%
+  filter(RaceEth=="Black") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(215, 275) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Black in Rhode Island {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Rhode Island") %>%
+  filter(RaceEth=="Black") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Black Boys in Rhode Island {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Rhode Island") %>%
+  filter(RaceEth=="Black") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## South Carolina {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="South Carolina") %>%
+  filter(RaceEth=="Black") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(215, 275) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Black in South Carolina {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="South Carolina") %>%
+  filter(RaceEth=="Black") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Black Boys in South Carolina {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="South Carolina") %>%
+  filter(RaceEth=="Black") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## South Dakota {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="South Dakota") %>%
+  filter(RaceEth=="Black") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(215, 275) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Black in South Dakota {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="South Dakota") %>%
+  filter(RaceEth=="Black") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Black Boys in South Dakota {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="South Dakota") %>%
+  filter(RaceEth=="Black") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Tennessee {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Tennessee") %>%
+  filter(RaceEth=="Black") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(215, 275) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Black in Tennessee {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Tennessee") %>%
+  filter(RaceEth=="Black") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Black Boys in Tennessee {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Tennessee") %>%
+  filter(RaceEth=="Black") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Texas {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Texas") %>%
+  filter(RaceEth=="Black") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(215, 275) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Black in Texas {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Texas") %>%
+  filter(RaceEth=="Black") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Black Boys in Texas {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Texas") %>%
+  filter(RaceEth=="Black") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Utah {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Utah") %>%
+  filter(RaceEth=="Black") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(215, 275) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Black in Utah {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Utah") %>%
+  filter(RaceEth=="Black") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Black Boys in Utah {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Utah") %>%
+  filter(RaceEth=="Black") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Vermont {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Vermont") %>%
+  filter(RaceEth=="Black") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(215, 275) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Black in Vermont {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Vermont") %>%
+  filter(RaceEth=="Black") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Black Boys in Vermont {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Vermont") %>%
+  filter(RaceEth=="Black") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Virginia {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Virginia") %>%
+  filter(RaceEth=="Black") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(215, 275) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Black in Virginia {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Virginia") %>%
+  filter(RaceEth=="Black") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Black Boys in Virginia {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Virginia") %>%
+  filter(RaceEth=="Black") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Washington {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Washington") %>%
+  filter(RaceEth=="Black") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(215, 275) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Black in Washington {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Washington") %>%
+  filter(RaceEth=="Black") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Black Boys in Washington {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Washington") %>%
+  filter(RaceEth=="Black") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## West Virginia {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="West Virginia") %>%
+  filter(RaceEth=="Black") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(215, 275) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Black in West Virginia {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="West Virginia") %>%
+  filter(RaceEth=="Black") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Black Boys in West Virginia {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="West Virginia") %>%
+  filter(RaceEth=="Black") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Wisconsin {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Wisconsin") %>%
+  filter(RaceEth=="Black") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(215, 275) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Black in Wisconsin {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Wisconsin") %>%
+  filter(RaceEth=="Black") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Black Boys in Wisconsin {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Wisconsin") %>%
+  filter(RaceEth=="Black") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Wyoming {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Wyoming") %>%
+  filter(RaceEth=="Black") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(215, 275) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Black in Wyoming {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Wyoming") %>%
+  filter(RaceEth=="Black") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Black Boys in Wyoming {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Wyoming") %>%
+  filter(RaceEth=="Black") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(210, 265) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Reading") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+

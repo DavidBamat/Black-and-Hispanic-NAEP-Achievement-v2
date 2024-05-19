@@ -1,0 +1,3631 @@
+# Hispanic Math Achievement
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.align = 'center')
+```
+
+```{r Packages, echo=FALSE, message=FALSE, warning=FALSE}
+
+#requires install.packages("pacman")
+pacman::p_load(readxl, janitor, tidyverse)
+
+```
+
+```{r Data, echo=FALSE, message=FALSE, warning=FALSE}
+
+##Change order of 'National public' to be last so that is always the same color##
+
+#main
+df <- read_csv('https://raw.githubusercontent.com/DavidBamat/Black-Hispanic-Achievement/main/g8m_race_eth.csv')
+
+df$Jurisdiction <- factor(df$Jurisdiction,levels = c('Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'District of Columbia', 'DoDEA', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Puerto Rico', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming', 'National public'))
+
+#nslp
+df_nslp <- read_csv('https://raw.githubusercontent.com/DavidBamat/Black-Hispanic-Achievement/main/g8m_race_eth_nslp.csv')
+
+df_nslp$Jurisdiction <- factor(df_nslp$Jurisdiction,levels = c('Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'District of Columbia', 'DoDEA', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Puerto Rico', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming', 'National public'))
+
+#gen
+df_gen <- read_csv('https://raw.githubusercontent.com/DavidBamat/Black-Hispanic-Achievement/main/g8m_race_eth_gen.csv')
+
+df_gen$Jurisdiction <- factor(df_gen$Jurisdiction,levels = c('Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'District of Columbia', 'DoDEA', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Puerto Rico', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming', 'National public'))
+
+```
+
+## Alabama {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Alabama") %>%
+  filter(RaceEth=="Hispanic") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+```
+
+### Lower Income & Hispanic in Alabama {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Alabama") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+ ylim(230, 290) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Hispanic Boys in Alabama {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Alabama") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Alaska  {-}
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Alaska") %>%
+  filter(RaceEth=="Hispanic") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Hispanic in Alaska {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Alaska") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+ ylim(230, 290) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Hispanic Boys in Alaska {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Alaska") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Arizona {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Arizona") %>%
+  filter(RaceEth=="Hispanic") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Hispanic in Arizona {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Arizona") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+ ylim(230, 290) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Hispanic Boys in Arizona {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Arizona") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Arkansas {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Arkansas") %>%
+  filter(RaceEth=="Hispanic") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Hispanic in Arkansas {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Arkansas") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+ ylim(230, 290) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Hispanic Boys in Arkansas {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Arkansas") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## California {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="California") %>%
+  filter(RaceEth=="Hispanic") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Hispanic in California {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="California") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+ ylim(230, 290) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Hispanic Boys in California {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="California") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Colorado {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Colorado") %>%
+  filter(RaceEth=="Hispanic") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Hispanic in Colorado {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Colorado") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+ ylim(230, 290) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Hispanic Boys in Colorado {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Colorado") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Connecticut {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Connecticut") %>%
+  filter(RaceEth=="Hispanic") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Hispanic in Connecticut {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Connecticut") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+ ylim(230, 290) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Hispanic Boys in Connecticut {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Connecticut") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Delaware {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Delaware") %>%
+  filter(RaceEth=="Hispanic") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Hispanic in Delaware {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Delaware") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+ ylim(230, 290) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Hispanic Boys in Delaware {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Delaware") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Florida {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Florida") %>%
+  filter(RaceEth=="Hispanic") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Hispanic in Florida {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Florida") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+ ylim(230, 290) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Hispanic Boys in Florida {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Florida") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Georgia {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Georgia") %>%
+  filter(RaceEth=="Hispanic") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Hispanic in Georgia {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Georgia") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+ ylim(230, 290) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Hispanic Boys in Georgia {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Georgia") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Hawaii {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Hawaii") %>%
+  filter(RaceEth=="Hispanic") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Hispanic in Hawaii {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Hawaii") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+ ylim(230, 290) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Hispanic Boys in Hawaii {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Hawaii") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+## Idaho {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Idaho") %>%
+  filter(RaceEth=="Hispanic") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Hispanic in Idaho {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Idaho") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+ ylim(230, 290) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Hispanic Boys in Idaho {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Idaho") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Illinois {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Illinois") %>%
+  filter(RaceEth=="Hispanic") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Hispanic in Illinois {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Illinois") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+ ylim(230, 290) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Hispanic Boys in Illinois {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Illinois") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Indiana {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Indiana") %>%
+  filter(RaceEth=="Hispanic") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Hispanic in Indiana {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Indiana") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+ ylim(230, 290) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Hispanic Boys in Indiana {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Indiana") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Iowa {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Iowa") %>%
+  filter(RaceEth=="Hispanic") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Hispanic in Iowa {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Iowa") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+ ylim(230, 290) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Hispanic Boys in Iowa {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Iowa") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Kansas {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Kansas") %>%
+  filter(RaceEth=="Hispanic") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Hispanic in Kansas {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Kansas") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+ ylim(230, 290) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Hispanic Boys in Kansas {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Kansas") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Kentucky {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Kentucky") %>%
+  filter(RaceEth=="Hispanic") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Hispanic in Kentucky {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Kentucky") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+ ylim(230, 290) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Hispanic Boys in Kentucky {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Kentucky") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Louisiana {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Louisiana") %>%
+  filter(RaceEth=="Hispanic") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Hispanic in Louisiana {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Louisiana") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+ ylim(230, 290) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Hispanic Boys in Louisiana {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Louisiana") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Maine {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Maine") %>%
+  filter(RaceEth=="Hispanic") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Hispanic in Maine {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Maine") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+ ylim(230, 290) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Hispanic Boys in Maine {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Maine") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Maryland {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Maryland") %>%
+  filter(RaceEth=="Hispanic") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Hispanic in Maryland {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Maryland") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+ ylim(230, 290) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Hispanic Boys in Maryland {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Maryland") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Massachusetts {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Massachusetts") %>%
+  filter(RaceEth=="Hispanic") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Hispanic in Massachusetts {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Massachusetts") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+ ylim(230, 290) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Hispanic Boys in Massachusetts {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Massachusetts") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Michigan {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Michigan") %>%
+  filter(RaceEth=="Hispanic") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Hispanic in Michigan {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Michigan") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+ ylim(230, 290) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Hispanic Boys in Michigan {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Michigan") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Minnesota {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Minnesota") %>%
+  filter(RaceEth=="Hispanic") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Hispanic in Minnesota {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Minnesota") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+ ylim(230, 290) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Hispanic Boys in Minnesota {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Minnesota") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Mississippi {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Mississippi") %>%
+  filter(RaceEth=="Hispanic") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Hispanic in Mississippi {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Mississippi") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+ ylim(230, 290) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Hispanic Boys in Mississippi {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Mississippi") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Missouri {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Missouri") %>%
+  filter(RaceEth=="Hispanic") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Hispanic in Missouri {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Missouri") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+ ylim(230, 290) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Hispanic Boys in Missouri {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Missouri") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Montana {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Montana") %>%
+  filter(RaceEth=="Hispanic") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Hispanic in Montana {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Montana") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+ ylim(230, 290) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Hispanic Boys in Montana {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Montana") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Nebraska {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Nebraska") %>%
+  filter(RaceEth=="Hispanic") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Hispanic in Nebraska {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Nebraska") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+ ylim(230, 290) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Hispanic Boys in Nebraska {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Nebraska") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Nevada {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Nevada") %>%
+  filter(RaceEth=="Hispanic") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Hispanic in Nevada {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Nevada") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+ ylim(230, 290) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Hispanic Boys in Nevada {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Nevada") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## New Hampshire {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="New Hampshire") %>%
+  filter(RaceEth=="Hispanic") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Hispanic in New Hampshire {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="New Hampshire") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+ ylim(230, 290) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Hispanic Boys in New Hampshire {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="New Hampshire") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## New Jersey {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="New Jersey") %>%
+  filter(RaceEth=="Hispanic") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Hispanic in New Jersey {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="New Jersey") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+ ylim(230, 290) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Hispanic Boys in New Jersey {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="New Jersey") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## New Mexico {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="New Mexico") %>%
+  filter(RaceEth=="Hispanic") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Hispanic in New Mexico {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="New Mexico") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+ ylim(230, 290) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Hispanic Boys in New Mexico {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="New Mexico") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## New York {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="New York") %>%
+  filter(RaceEth=="Hispanic") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Hispanic in New York {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="New York") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+ ylim(230, 290) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Hispanic Boys in New York {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="New York") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## North Carolina {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="North Carolina") %>%
+  filter(RaceEth=="Hispanic") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Hispanic in North Carolina {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="North Carolina") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+ ylim(230, 290) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Hispanic Boys in North Carolina {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="North Carolina") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## North Dakota {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="North Dakota") %>%
+  filter(RaceEth=="Hispanic") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Hispanic in North Dakota {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="North Dakota") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+ ylim(230, 290) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Hispanic Boys in North Dakota {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="North Dakota") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Ohio {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Ohio") %>%
+  filter(RaceEth=="Hispanic") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Hispanic in Ohio {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Ohio") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+ ylim(230, 290) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Hispanic Boys in Ohio {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Ohio") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Oklahoma {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Oklahoma") %>%
+  filter(RaceEth=="Hispanic") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Hispanic in Oklahoma {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Oklahoma") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+ ylim(230, 290) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Hispanic Boys in Oklahoma {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Oklahoma") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Oregon {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Oregon") %>%
+  filter(RaceEth=="Hispanic") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Hispanic in Oregon {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Oregon") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+ ylim(230, 290) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Hispanic Boys in Oregon {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Oregon") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Pennsylvania {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Pennsylvania") %>%
+  filter(RaceEth=="Hispanic") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Hispanic in Pennsylvania {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Pennsylvania") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+ ylim(230, 290) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Hispanic Boys in Pennsylvania {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Pennsylvania") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Rhode Island {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Rhode Island") %>%
+  filter(RaceEth=="Hispanic") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Hispanic in Rhode Island {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Rhode Island") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+ ylim(230, 290) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Hispanic Boys in Rhode Island {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Rhode Island") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## South Carolina {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="South Carolina") %>%
+  filter(RaceEth=="Hispanic") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Hispanic in South Carolina {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="South Carolina") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+ ylim(230, 290) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Hispanic Boys in South Carolina {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="South Carolina") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## South Dakota {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="South Dakota") %>%
+  filter(RaceEth=="Hispanic") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Hispanic in South Dakota {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="South Dakota") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+ ylim(230, 290) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Hispanic Boys in South Dakota {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="South Dakota") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Tennessee {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Tennessee") %>%
+  filter(RaceEth=="Hispanic") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Hispanic in Tennessee {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Tennessee") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+ ylim(230, 290) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Hispanic Boys in Tennessee {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Tennessee") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Texas {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Texas") %>%
+  filter(RaceEth=="Hispanic") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Hispanic in Texas {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Texas") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+ ylim(230, 290) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Hispanic Boys in Texas {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Texas") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Utah {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Utah") %>%
+  filter(RaceEth=="Hispanic") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Hispanic in Utah {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Utah") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+ ylim(230, 290) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Hispanic Boys in Utah {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Utah") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Vermont {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Vermont") %>%
+  filter(RaceEth=="Hispanic") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Hispanic in Vermont {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Vermont") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+ ylim(230, 290) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Hispanic Boys in Vermont {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Vermont") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Virginia {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Virginia") %>%
+  filter(RaceEth=="Hispanic") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Hispanic in Virginia {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Virginia") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+ ylim(230, 290) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Hispanic Boys in Virginia {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Virginia") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Washington {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Washington") %>%
+  filter(RaceEth=="Hispanic") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Hispanic in Washington {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Washington") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+ ylim(230, 290) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Hispanic Boys in Washington {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Washington") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## West Virginia {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="West Virginia") %>%
+  filter(RaceEth=="Hispanic") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Hispanic in West Virginia {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="West Virginia") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+ ylim(230, 290) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Hispanic Boys in West Virginia {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="West Virginia") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Wisconsin {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Wisconsin") %>%
+  filter(RaceEth=="Hispanic") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Hispanic in Wisconsin {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Wisconsin") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+ ylim(230, 290) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Hispanic Boys in Wisconsin {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Wisconsin") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+## Wyoming {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Wyoming") %>%
+  filter(RaceEth=="Hispanic") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+### Lower Income & Hispanic in Wyoming {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_nslp %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Wyoming") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(NSLP=="Eligible") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+ ylim(230, 290) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
+
+
+### Hispanic Boys in Wyoming {-}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+df_gen %>% 
+  filter(Jurisdiction=="National public" | Jurisdiction=="Wyoming") %>%
+  filter(RaceEth=="Hispanic") %>%
+  filter(Gender=="Male") %>%
+  mutate(Mean = as.numeric(Mean)) %>%  
+  ggplot(aes(x=as.numeric(Year), y=Mean, color=Jurisdiction)) +
+  geom_errorbar(aes(ymin=Mean-(2*SE), ymax=Mean+(2*SE)), width=.2) +
+  geom_line() +
+  geom_point() +
+  ylim(235, 295) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+  ylab("Mean Achievement Estimate") +
+  xlab("Year") +
+  scale_x_continuous(breaks=seq(2003,2022,1)) +
+    ggtitle("Grade 8 Math") +
+  theme(legend.position = "bottom") +   scale_color_discrete(name="") +      scale_color_manual(values=c("#228B22", "black"))
+
+
+```
